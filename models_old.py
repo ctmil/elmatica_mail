@@ -15,11 +15,12 @@ class mail_followers(osv.Model):
 	_inherit = 'mail.followers'
 
 	def create(self, cr, uid, vals, context=None):
-		if vals['res_model'] == 'crm.helpdesk':
-			import pdb;pdb.set_trace()
-        	res = super(mail_followers, self).create(cr, uid, vals, context=context)
-	        self.invalidate_cache(cr, uid, context=context)
-        	return res
+		if vals['res_model'] != 'crm.helpdesk':
+        		res = super(mail_followers, self).create(cr, uid, vals, context=context)
+		        self.invalidate_cache(cr, uid, context=context)
+        		return res
+		else:
+			return None
 
 
 mail_followers()
