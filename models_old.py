@@ -20,7 +20,15 @@ class mail_followers(osv.Model):
 		        self.invalidate_cache(cr, uid, context=context)
         		return res
 		else:
-			return None
+			res = self.pool.get('mail.followers').search(cr,uid,[('res_model','=','crm.helpdesk'),\
+				('res_id','=',vals['res_id'])])
+			if res:
+				if len(res) > 1:
+					return res[0]
+				else:
+					return res
+			else:
+				return None
 
 
 mail_followers()
