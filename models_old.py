@@ -20,6 +20,12 @@ class mail_followers(osv.Model):
 		        self.invalidate_cache(cr, uid, context=context)
         		return res
 		else:
+			if vals.has_key('partner_id'):
+				partner = self.pool.get('res.partner').browse(cr,uid,vals['partner_id'])
+				if not partner.customer and not partner.supplier:
+		        		res = super(mail_followers, self).create(cr, uid, vals, context=context)
+				        self.invalidate_cache(cr, uid, context=context)
+        				return res
 			res = self.pool.get('mail.followers').search(cr,uid,[('res_model','=','crm.helpdesk'),\
 				('res_id','=',vals['res_id'])])
 			if res:
